@@ -20,7 +20,7 @@ import './style.css';
 
 function App() {
 
-    const [ lista, setLista ] = useState([]);
+    
     const [ open, setOpen ] = useState(false);
     const [ cliente, setCliente ] = useState('');
     const [ produto, setProduto ] = useState('');
@@ -45,10 +45,11 @@ function App() {
         const client = cliente;
         const product = produto;
         const provider = fornecedor;
-        api.post('/lojaderoupa', { cliente: client, produto: product, fornecedor: provider }).then((response) => {
+        api.post('/loja', { cliente: client, produto: product, fornecedor: provider }).then((response) => {
         setCliente('');
         setProduto('');
         setFornecedor('');
+        setOpen(false);
         loadData()
         })
      }
