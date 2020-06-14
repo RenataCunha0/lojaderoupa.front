@@ -20,17 +20,16 @@ import './style.css';
 
 function App() {
 
-    
+    const [ lista, setLista ] = useState([]);
     const [ open, setOpen ] = useState(false);
-    const [ cliente, setCliente ] = useState('');
-    const [ produto, setProduto ] = useState('');
+    const [ cliente, setCliente] = useState('');
+    const [ produto, setProduto] = useState('');
     const [ fornecedor, setFornecedor] = useState('');
-    
 
     function loadData() {
         api.get('/lojaderoupa').then((response) => {
             const itens = response.data;
-            setProduto(itens);
+            setLista(itens);
         })
     }
 
@@ -45,14 +44,17 @@ function App() {
         const client = cliente;
         const product = produto;
         const provider = fornecedor;
-        api.post('/loja', { cliente: client, produto: product, fornecedor: provider }).then((response) => {
+        api.post('/lojaderoupa', { cliente: client, produto: product, fornecedor : provider }).then((response) => {
         setCliente('');
         setProduto('');
         setFornecedor('');
         setOpen(false);
         loadData()
         })
-     }
+
+    
+    }
+
 
     //Função para excluir um produto da lista.
      function deleteProduto(id) {
@@ -70,9 +72,9 @@ function App() {
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>
-                        <TableCell>Nome do Cliente</TableCell>
-                        <TableCell>Produto</TableCell>
-                        <TableCell>Fornecedor</TableCell>
+                        <TableCell>cliente</TableCell>
+                        <TableCell>produto</TableCell>
+                        <TableCell>fornecedor</TableCell>
                         <TableCell>Apagar</TableCell>
                     </TableRow>
                 </TableHead>
@@ -83,10 +85,7 @@ function App() {
                             <TableCell>{item.cliente}</TableCell>
                             <TableCell>{item.produto}</TableCell>
                             <TableCell>{item.fornecedor}</TableCell>
-                        
-                            <TableCell>
-                                <Button variant="outlined" size="small" color="secondary" onClick={() => deleteProduto(item.id)} >Apagar</Button>
-                            </TableCell>
+                             <Button variant="outlined" size="small" color="secondary" onClick={() => deleteProduto(item.id)} >Apagar</Button>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -103,22 +102,22 @@ function App() {
                 <DialogTitle id="form-dialog-title">Novo Produto</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Digite o produto que pretende adicionar.
+                        Digite o produto que deseja adicionar.
                     </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="cliente"
-                        label="lojaderoupa"
+                        label="Cliente"
                         type="text"
                         fullWidth
                         value={cliente}
-                        onChange={e => setCliente(e.target.value)}
+                        onChange={e => setCliente (e.target.value)}
                     />
                     <TextField
                         margin="dense"
                         id="produto"
-                        label="produto"
+                        label="Produto"
                         type="text"
                         fullWidth
                         value={produto}
@@ -127,8 +126,8 @@ function App() {
                     <TextField
                         margin="dense"
                         id="fornecedor"
-                        label="fornecedor"
-                        type="number"
+                        label="Fornecedor"
+                        type="text"
                         fullWidth
                         value={fornecedor}
                         onChange={e => setFornecedor(e.target.value)}
